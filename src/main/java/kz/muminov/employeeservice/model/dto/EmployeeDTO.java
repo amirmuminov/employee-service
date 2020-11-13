@@ -1,6 +1,7 @@
 package kz.muminov.employeeservice.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,11 @@ public class EmployeeDTO {
     @NotNull
     @NotEmpty
     private String lastName;
+
+    @NotEmpty
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
