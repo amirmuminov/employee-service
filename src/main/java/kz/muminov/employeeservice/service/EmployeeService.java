@@ -2,7 +2,9 @@ package kz.muminov.employeeservice.service;
 
 import kz.muminov.employeeservice.model.dto.EmployeeDTO;
 import kz.muminov.employeeservice.model.entity.Employee;
+import kz.muminov.employeeservice.model.entity.EmployeeRole;
 import kz.muminov.employeeservice.repository.EmployeeRepository;
+import kz.muminov.employeeservice.repository.RoleRepository;
 import kz.muminov.employeeservice.util.ExceptionUtils;
 import kz.muminov.employeeservice.util.MessageCode;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class EmployeeService implements UserDetailsService {
 
     private final EmployeeRepository employeeRepository;
     private final ExceptionUtils exceptionUtils;
+    private final RoleRepository roleRepository;
 
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -33,6 +36,8 @@ public class EmployeeService implements UserDetailsService {
         employee.setBirthDate(employeeDTO.getBirthDate());
         employee.setPassword(passwordEncoder().encode(employeeDTO.getPassword()));
 
+        EmployeeRole employeeRole = roleRepository.findFirstByCodeEquals("ROLE_WAITER").get();
+        employee.setEmployeeRole(employeeRole);
         employee = employeeRepository.save(employee);
         employeeDTO.setId(employee.getId());
 
